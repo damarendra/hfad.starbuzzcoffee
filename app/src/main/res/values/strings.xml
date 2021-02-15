@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">Starbuzz Coffee</string>
     <string name="starbuzz_logo">StarBuzz Logo</string>
+    <string name="drink_img">Drink Image</string>
     <string-array name="options">
         <item>Drinks</item>
         <item>Food</item>

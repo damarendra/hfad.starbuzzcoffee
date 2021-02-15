@@ -8,6 +8,8 @@ public class Drink {
     private String desc;
     private int img;
 
+    public static final String EXTRA_DRINK_DATA = "DRINK/EXTRA_DRINK_DATA";
+
     public static final Drink[] drinks = {
             new Drink("Latte", "A couple of espresso shots with steamed milk",
                 R.drawable.latte),
