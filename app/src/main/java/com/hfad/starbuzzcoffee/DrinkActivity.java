@@ -59,8 +59,10 @@ public class DrinkActivity extends AppCompatActivity {
         } catch (SQLiteException ex) {
             Toast.makeText(this, "Database Unavailable", Toast.LENGTH_LONG).show();
         } finally {
-            if(db != null) {
+            if(cursor != null) {
                 cursor.close();
+            }
+            if(db != null) {
                 db.close();
             }
         }
