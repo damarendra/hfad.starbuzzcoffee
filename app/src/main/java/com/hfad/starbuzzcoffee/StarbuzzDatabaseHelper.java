@@ -11,26 +11,29 @@ public class StarbuzzDatabaseHelper extends SQLiteOpenHelper {
 
     public static final String DATABASE_NAME = "starbuzz";
 
+    public static final String TABLE_DRINK_NAME = "DRINK";
+
+    public static final String TABLE_DRINK_COL_ID = "id";
+    public static final String TABLE_DRINK_COL_NAME = "name";
+    public static final String TABLE_DRINK_COL_DESC = "description";
+    public static final String TABLE_DRINK_COL_IMG = "image_resource_id";
+
     public static final int DATABASE_OLD_VERSION = 0;
     public static final int DATABASE_NEW_VERSION = 1;
 
     public static final String CREATE_DRINK_TABLE_SQL =
-            "CREATE TABLE DRINK (" +
-                    "_id INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                    "NAME TEXT, " +
-                    "DESCRIPTION TEXT, " +
-                    "IMAGE_RESOURCE_ID INTEGER);";
+            "CREATE TABLE " + TABLE_DRINK_NAME + "(" +
+                    TABLE_DRINK_COL_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                    TABLE_DRINK_COL_NAME +" TEXT, " +
+                    TABLE_DRINK_COL_DESC +" TEXT, " +
+                    TABLE_DRINK_COL_IMG +" INTEGER);";
 
     public static final String ALTER_DRINK_TABLE_SQL =
             "ALTER TABLE DRINK ADD COLUMN FAVORITE NUMERIC;";
 
 
-    public StarbuzzDatabaseHelper(
-            @Nullable Context context,
-            @Nullable String name,
-            @Nullable SQLiteDatabase.CursorFactory factory,
-            int version) {
-        super(context, DATABASE_NAME, factory, DATABASE_NEW_VERSION);
+    public StarbuzzDatabaseHelper(@Nullable Context context) {
+        super(context, DATABASE_NAME, null, DATABASE_NEW_VERSION);
     }
 
     @Override
@@ -69,11 +72,11 @@ public class StarbuzzDatabaseHelper extends SQLiteOpenHelper {
                              final String description,
                              final int image_resource_id) {
         ContentValues drinkValues = new ContentValues();
-        drinkValues.put("NAME", name);
-        drinkValues.put("DESCRIPTION", description);
-        drinkValues.put("IMAGE_RESOURCE_ID", image_resource_id);
+        drinkValues.put(TABLE_DRINK_COL_NAME, name);
+        drinkValues.put(TABLE_DRINK_COL_DESC, description);
+        drinkValues.put(TABLE_DRINK_COL_IMG, image_resource_id);
 
-        sqLiteDatabase.insert("DRINK", null, drinkValues);
+        sqLiteDatabase.insert(TABLE_DRINK_COL_IMG, null, drinkValues);
     }
 
 }
