@@ -13,7 +13,7 @@ public class StarbuzzDatabaseHelper extends SQLiteOpenHelper {
 
     public static final String TABLE_DRINK_NAME = "DRINK";
 
-    public static final String TABLE_DRINK_COL_ID = "id";
+    public static final String TABLE_DRINK_COL_ID = "_id";
     public static final String TABLE_DRINK_COL_NAME = "name";
     public static final String TABLE_DRINK_COL_DESC = "description";
     public static final String TABLE_DRINK_COL_IMG = "image_resource_id";
@@ -76,7 +76,7 @@ public class StarbuzzDatabaseHelper extends SQLiteOpenHelper {
         drinkValues.put(TABLE_DRINK_COL_DESC, description);
         drinkValues.put(TABLE_DRINK_COL_IMG, image_resource_id);
 
-        sqLiteDatabase.insert(TABLE_DRINK_COL_IMG, null, drinkValues);
+        sqLiteDatabase.insert(TABLE_DRINK_NAME, null, drinkValues);
     }
 
 }
