@@ -8,6 +8,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -53,6 +54,7 @@ public class DrinkCategoryActivity extends AppCompatActivity {
                     null,
                     null
             );
+
             listDrinks.setAdapter(new SimpleCursorAdapter(
                     this,
                     android.R.layout.simple_list_item_1,
@@ -61,19 +63,22 @@ public class DrinkCategoryActivity extends AppCompatActivity {
                     new int[] { android.R.id.text1 },
                     0
             ));
+
+            listDrinks.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> listView, View itemView, int pos, long id) {
+                    Intent intent = new Intent(DrinkCategoryActivity.this,
+                            DrinkActivity.class);
+                    intent.putExtra(Drink.EXTRA_DRINK_DATA, (int) id);
+                    Log.d("damn", "drink id = "+id);
+                    startActivity(intent);
+                }
+            });
         } catch (SQLiteException ex) {
             Toast.makeText(this, "Database Unavailable", Toast.LENGTH_LONG).show();
         }
 
-        listDrinks.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> listView, View itemView, int pos, long id) {
-                Intent intent = new Intent(DrinkCategoryActivity.this,
-                        DrinkActivity.class);
-                intent.putExtra(Drink.EXTRA_DRINK_DATA, (int) id);
-                startActivity(intent);
-            }
-        });
+
     }
 
     protected void onDestroy() {
