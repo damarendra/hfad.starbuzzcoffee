@@ -2,12 +2,16 @@ package com.hfad.starbuzzcoffee;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.media.Image;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.CheckBox;
+import android.widget.Checkable;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -24,6 +28,7 @@ public class DrinkActivity extends AppCompatActivity {
         ImageView img = findViewById(R.id.photo);
         TextView name = findViewById(R.id.name);
         TextView desc = findViewById(R.id.desc);
+        CheckBox fav = findViewById(R.id.favorite);
 
 //        Drink drink = Drink.drinks[(int) getIntent().getExtras().get(Drink.EXTRA_DRINK_DATA)];
 //        img.setImageResource(drink.getImg());
@@ -43,7 +48,8 @@ public class DrinkActivity extends AppCompatActivity {
                     new String[] {
                             StarbuzzDatabaseHelper.TABLE_DRINK_COL_IMG,
                             StarbuzzDatabaseHelper.TABLE_DRINK_COL_NAME,
-                            StarbuzzDatabaseHelper.TABLE_DRINK_COL_DESC },
+                            StarbuzzDatabaseHelper.TABLE_DRINK_COL_DESC,
+                            StarbuzzDatabaseHelper.TABLE_DRINK_COL_FAVORITE },
                     StarbuzzDatabaseHelper.TABLE_DRINK_COL_ID + " = ?",
                     new String[] { Integer.toString(drink_id) }, // the drink id
                     null,
@@ -55,6 +61,7 @@ public class DrinkActivity extends AppCompatActivity {
                 img.setContentDescription(cursor.getString(1));
                 name.setText(cursor.getString(1));
                 desc.setText(cursor.getString(2));
+                fav.setChecked(cursor.getInt(3) == 1); // 1 means true
             }
         } catch (SQLiteException ex) {
             Toast.makeText(this, "Database Unavailable", Toast.LENGTH_LONG).show();
@@ -62,6 +69,38 @@ public class DrinkActivity extends AppCompatActivity {
             if(cursor != null) {
                 cursor.close();
             }
+            if(db != null) {
+                db.close();
+            }
+        }
+
+    }
+
+    public void onFavoriteClicked(View view) {
+
+        int drink_id = (int) getIntent().getExtras().get(Drink.EXTRA_DRINK_DATA);
+
+        CheckBox favorite = findViewById(R.id.favorite);
+
+        ContentValues drinkValues = new ContentValues();
+        drinkValues.put(
+                StarbuzzDatabaseHelper.TABLE_DRINK_COL_FAVORITE,
+                favorite.isChecked() ? 1 : 0);
+
+        SQLiteOpenHelper sqLiteOpenHelper = new StarbuzzDatabaseHelper(this);
+        SQLiteDatabase db = null;
+
+        try {
+            db = sqLiteOpenHelper.getWritableDatabase();
+            db.update(
+                    StarbuzzDatabaseHelper.TABLE_DRINK_NAME,
+                    drinkValues,
+                    StarbuzzDatabaseHelper.TABLE_DRINK_COL_ID + " = ?",
+                    new String[] {Integer.toString(drink_id)}
+            );
+        } catch (SQLiteException ex) {
+            Toast.makeText(this, "Database Unavailable", Toast.LENGTH_LONG).show();
+        } finally {
             if(db != null) {
                 db.close();
             }

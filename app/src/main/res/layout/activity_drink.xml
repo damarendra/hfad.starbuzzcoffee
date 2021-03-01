@@ -34,5 +34,16 @@
         app:layout_constraintStart_toStartOf="@+id/photo"
         app:layout_constraintTop_toBottomOf="@+id/name" />
 
+    <CheckBox
+        android:id="@+id/favorite"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="Favorite"
+        android:onClick="onFavoriteClicked"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/desc" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
